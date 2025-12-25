@@ -19,7 +19,11 @@ export async function GET(
         documents (*),
         activities (*, created_by:users(full_name)),
         workflows (*),
-        meetings (*)
+        meetings (*),
+        family_members (*),
+        employers (*),
+        beneficiaries (*),
+        needs_assessment (*)
       `
       )
       .eq("id", id)

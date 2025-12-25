@@ -50,6 +50,9 @@ import {
   Eye,
   MoreVertical,
   Loader2,
+  UserCog,
+  Building2,
+  UserCheck,
 } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -59,6 +62,9 @@ import {
   Activity,
   Meeting,
   Workflow,
+  FamilyMember,
+  Employer,
+  Beneficiary,
   productTypeLabels,
   productStatusLabels,
   documentTypeLabels,
@@ -68,6 +74,13 @@ import {
   workflowStatusLabels,
   workflowPriorityLabels,
 } from "@/types/database";
+import {
+  PersonalDetailsTab,
+  AdditionalDetailsTab,
+  FamilyMembersTab,
+  EmployersTab,
+  BeneficiariesTab,
+} from "@/components/customers";
 
 interface CustomerData extends Customer {
   products: Product[];
@@ -75,6 +88,10 @@ interface CustomerData extends Customer {
   activities: Activity[];
   meetings: Meeting[];
   workflows: Workflow[];
+  family_members: FamilyMember[];
+  employers: Employer[];
+  beneficiaries: Beneficiary[];
+  needs_assessment: Record<string, unknown> | null;
 }
 
 const productIcons: Record<string, typeof Building> = {
@@ -127,7 +144,7 @@ function formatDateTime(dateStr: string | null | undefined) {
 
 export default function CustomerDetailPage() {
   const params = useParams();
-  const [activeTab, setActiveTab] = useState("products");
+  const [activeTab, setActiveTab] = useState("details");
   const [customer, setCustomer] = useState<CustomerData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -158,6 +175,30 @@ export default function CustomerDetailPage() {
     toast.success(`${label} הועתק ללוח`);
   };
 
+  const updateCustomer = (updatedCustomer: Customer) => {
+    if (customer) {
+      setCustomer({ ...customer, ...updatedCustomer });
+    }
+  };
+
+  const updateFamilyMembers = (members: FamilyMember[]) => {
+    if (customer) {
+      setCustomer({ ...customer, family_members: members });
+    }
+  };
+
+  const updateEmployers = (employers: Employer[]) => {
+    if (customer) {
+      setCustomer({ ...customer, employers });
+    }
+  };
+
+  const updateBeneficiaries = (beneficiaries: Beneficiary[]) => {
+    if (customer) {
+      setCustomer({ ...customer, beneficiaries });
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
@@ -183,6 +224,9 @@ export default function CustomerDetailPage() {
   const activities = customer.activities || [];
   const meetings = customer.meetings || [];
   const workflows = customer.workflows || [];
+  const familyMembers = customer.family_members || [];
+  const employers = customer.employers || [];
+  const beneficiaries = customer.beneficiaries || [];
 
   return (
     <div className="space-y-6">
@@ -348,14 +392,86 @@ export default function CustomerDetailPage() {
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-        <TabsList className="grid w-full grid-cols-6">
-          <TabsTrigger value="products">מוצרים ({products.length})</TabsTrigger>
-          <TabsTrigger value="workflows">תהליכים ({workflows.length})</TabsTrigger>
-          <TabsTrigger value="activities">פעילויות ({activities.length})</TabsTrigger>
-          <TabsTrigger value="documents">מסמכים ({documents.length})</TabsTrigger>
-          <TabsTrigger value="meetings">פגישות ({meetings.length})</TabsTrigger>
-          <TabsTrigger value="events">אירועים</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-10 h-auto">
+          <TabsTrigger value="details" className="flex items-center gap-1 text-xs">
+            <User className="h-4 w-4" />
+            פרטים
+          </TabsTrigger>
+          <TabsTrigger value="additional" className="flex items-center gap-1 text-xs">
+            <UserCog className="h-4 w-4" />
+            פרטים נוספים
+          </TabsTrigger>
+          <TabsTrigger value="family" className="flex items-center gap-1 text-xs">
+            <Users className="h-4 w-4" />
+            משפחה ({familyMembers.length})
+          </TabsTrigger>
+          <TabsTrigger value="employers" className="flex items-center gap-1 text-xs">
+            <Building2 className="h-4 w-4" />
+            מעסיקים ({employers.length})
+          </TabsTrigger>
+          <TabsTrigger value="beneficiaries" className="flex items-center gap-1 text-xs">
+            <UserCheck className="h-4 w-4" />
+            מוטבים ({beneficiaries.length})
+          </TabsTrigger>
+          <TabsTrigger value="products" className="flex items-center gap-1 text-xs">
+            <Building className="h-4 w-4" />
+            מוצרים ({products.length})
+          </TabsTrigger>
+          <TabsTrigger value="workflows" className="flex items-center gap-1 text-xs">
+            <ClipboardList className="h-4 w-4" />
+            תהליכים ({workflows.length})
+          </TabsTrigger>
+          <TabsTrigger value="documents" className="flex items-center gap-1 text-xs">
+            <FileText className="h-4 w-4" />
+            מסמכים ({documents.length})
+          </TabsTrigger>
+          <TabsTrigger value="meetings" className="flex items-center gap-1 text-xs">
+            <Calendar className="h-4 w-4" />
+            פגישות ({meetings.length})
+          </TabsTrigger>
+          <TabsTrigger value="activities" className="flex items-center gap-1 text-xs">
+            <Clock className="h-4 w-4" />
+            פעילויות
+          </TabsTrigger>
         </TabsList>
+
+        {/* Personal Details Tab */}
+        <TabsContent value="details">
+          <PersonalDetailsTab customer={customer} onUpdate={updateCustomer} />
+        </TabsContent>
+
+        {/* Additional Details Tab */}
+        <TabsContent value="additional">
+          <AdditionalDetailsTab customer={customer} onUpdate={updateCustomer} />
+        </TabsContent>
+
+        {/* Family Members Tab */}
+        <TabsContent value="family">
+          <FamilyMembersTab
+            customerId={customer.id}
+            familyMembers={familyMembers}
+            onUpdate={updateFamilyMembers}
+          />
+        </TabsContent>
+
+        {/* Employers Tab */}
+        <TabsContent value="employers">
+          <EmployersTab
+            customerId={customer.id}
+            employers={employers}
+            onUpdate={updateEmployers}
+          />
+        </TabsContent>
+
+        {/* Beneficiaries Tab */}
+        <TabsContent value="beneficiaries">
+          <BeneficiariesTab
+            customerId={customer.id}
+            beneficiaries={beneficiaries}
+            products={products}
+            onUpdate={updateBeneficiaries}
+          />
+        </TabsContent>
 
         {/* Products Tab */}
         <TabsContent value="products" className="space-y-4">
@@ -461,44 +577,6 @@ export default function CustomerDetailPage() {
                 </Card>
               ))}
             </div>
-          )}
-        </TabsContent>
-
-        {/* Activities Tab */}
-        <TabsContent value="activities" className="space-y-4">
-          <h2 className="text-xl font-semibold">פעילויות</h2>
-          {activities.length === 0 ? (
-            <Card>
-              <CardContent className="p-8 text-center text-muted-foreground">
-                אין פעילויות
-              </CardContent>
-            </Card>
-          ) : (
-            <Card>
-              <CardContent className="p-0">
-                <div className="divide-y">
-                  {activities.map((activity) => (
-                    <div key={activity.id} className="flex items-center gap-4 p-4">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
-                        {activity.type === "call" && <Phone className="h-5 w-5" />}
-                        {activity.type === "document" && <FileText className="h-5 w-5" />}
-                        {activity.type === "meeting" && <Calendar className="h-5 w-5" />}
-                        {activity.type === "email" && <Mail className="h-5 w-5" />}
-                        {activity.type === "whatsapp" && <MessageCircle className="h-5 w-5" />}
-                        {activity.type === "note" && <Edit className="h-5 w-5" />}
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2">
-                          <Badge variant="outline">{activityTypeLabels[activity.type]}</Badge>
-                        </div>
-                        <p className="mt-1">{activity.description || "-"}</p>
-                        <p className="text-sm text-muted-foreground">{formatDateTime(activity.created_at)}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
           )}
         </TabsContent>
 
@@ -613,14 +691,42 @@ export default function CustomerDetailPage() {
           )}
         </TabsContent>
 
-        {/* Events Tab */}
-        <TabsContent value="events" className="space-y-4">
-          <h2 className="text-xl font-semibold">אירועים</h2>
-          <Card>
-            <CardContent className="p-8 text-center text-muted-foreground">
-              אין אירועים מתוכננים
-            </CardContent>
-          </Card>
+        {/* Activities Tab */}
+        <TabsContent value="activities" className="space-y-4">
+          <h2 className="text-xl font-semibold">פעילויות</h2>
+          {activities.length === 0 ? (
+            <Card>
+              <CardContent className="p-8 text-center text-muted-foreground">
+                אין פעילויות
+              </CardContent>
+            </Card>
+          ) : (
+            <Card>
+              <CardContent className="p-0">
+                <div className="divide-y">
+                  {activities.map((activity) => (
+                    <div key={activity.id} className="flex items-center gap-4 p-4">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
+                        {activity.type === "call" && <Phone className="h-5 w-5" />}
+                        {activity.type === "document" && <FileText className="h-5 w-5" />}
+                        {activity.type === "meeting" && <Calendar className="h-5 w-5" />}
+                        {activity.type === "email" && <Mail className="h-5 w-5" />}
+                        {activity.type === "whatsapp" && <MessageCircle className="h-5 w-5" />}
+                        {activity.type === "note" && <Edit className="h-5 w-5" />}
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                          <Badge variant="outline">{activityTypeLabels[activity.type]}</Badge>
+                        </div>
+                        <p className="mt-1">{activity.description || "-"}</p>
+                        <p className="text-sm text-muted-foreground">{formatDateTime(activity.created_at)}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
       </Tabs>
     </div>

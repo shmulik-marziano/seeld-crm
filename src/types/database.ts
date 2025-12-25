@@ -56,22 +56,46 @@ export interface User {
   updated_at: string;
 }
 
+export type EmploymentStatus = 'employed' | 'self_employed' | 'unemployed' | 'student' | 'retired';
+export type RelationshipType = 'spouse' | 'child' | 'parent' | 'sibling' | 'other';
+export type IdType = 'id_card' | 'passport';
+
 export interface Customer {
   id: string;
   first_name: string;
   last_name: string;
+  id_type?: IdType;
   id_number: string;
   birth_date?: string;
   gender?: string;
   marital_status?: string;
+  employment_status?: EmploymentStatus;
+  monthly_income?: number;
   phone?: string;
   mobile?: string;
   email?: string;
   address_city?: string;
   address_street?: string;
   address_number?: string;
+  address_apartment?: string;
+  postal_code?: string;
+  // פרטים נוספים
+  health_fund?: string;
+  height?: number;
+  weight?: number;
+  is_smoker?: boolean;
+  cigarettes_per_day?: number;
+  occupation?: string;
+  // פרטי תושבות
+  is_us_citizen?: boolean;
+  is_us_resident?: boolean;
+  is_us_born?: boolean;
+  birth_country?: string;
+  id_issue_date?: string;
+  // פרטי מערכת
   is_confidential: boolean;
   quality_score?: number;
+  meeting_date?: string;
   assigned_to?: string;
   created_at: string;
   updated_at: string;
@@ -156,6 +180,105 @@ export interface FamilyRelation {
   related_customer_id: string;
   relation_type: string;
   created_at: string;
+}
+
+// New tables for enhanced customer management
+export interface FamilyMember {
+  id: string;
+  customer_id: string;
+  relationship: RelationshipType;
+  first_name: string;
+  last_name?: string;
+  id_type?: IdType;
+  id_number?: string;
+  birth_date?: string;
+  gender?: string;
+  is_smoker?: boolean;
+  employment_status?: EmploymentStatus;
+  monthly_income?: number;
+  phone?: string;
+  email?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Employer {
+  id: string;
+  customer_id: string;
+  company_name: string;
+  company_number?: string;
+  start_date?: string;
+  end_date?: string;
+  is_current: boolean;
+  position?: string;
+  address_city?: string;
+  address_street?: string;
+  address_number?: string;
+  postal_code?: string;
+  phone?: string;
+  email?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Beneficiary {
+  id: string;
+  customer_id: string;
+  product_id?: string;
+  first_name: string;
+  last_name: string;
+  id_number?: string;
+  relationship?: string;
+  percentage?: number;
+  phone?: string;
+  email?: string;
+  notes?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface NeedsAssessment {
+  id: string;
+  customer_id: string;
+  assessment_date?: string;
+  // מטרות
+  goal_organize_life?: boolean;
+  goal_understand_rights?: boolean;
+  goal_check_surplus?: boolean;
+  goal_central_report?: boolean;
+  goal_risk_level?: boolean;
+  goal_tax_issues?: boolean;
+  goal_treasury_check?: boolean;
+  goal_mortgage_refinance?: boolean;
+  goal_adjust_amounts?: boolean;
+  goal_retirement_prep?: boolean;
+  goal_ongoing_support?: boolean;
+  goals_notes?: string;
+  // חסכון
+  savings_tax_benefits?: boolean;
+  savings_future_care?: boolean;
+  savings_retirement_age?: number;
+  savings_lump_sum?: boolean;
+  savings_monthly_pension?: boolean;
+  savings_combined?: boolean;
+  // ביטוח
+  insurance_life?: boolean;
+  insurance_disability?: boolean;
+  insurance_critical_illness?: boolean;
+  insurance_accident_death?: boolean;
+  insurance_nursing?: boolean;
+  insurance_health?: boolean;
+  requested_life_amount?: number;
+  requested_disability_amount?: number;
+  requested_critical_illness_amount?: number;
+  requested_nursing_amount?: number;
+  // סיכון
+  risk_level?: number;
+  risk_notes?: string;
+  additional_notes?: string;
+  created_by?: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Notification {
@@ -279,4 +402,44 @@ export const userRoleLabels: Record<UserRole, string> = {
   admin: 'מנהל מערכת',
   manager: 'מנהל',
   agent: 'סוכן',
+};
+
+export const employmentStatusLabels: Record<EmploymentStatus, string> = {
+  employed: 'שכיר',
+  self_employed: 'עצמאי',
+  unemployed: 'לא עובד',
+  student: 'סטודנט',
+  retired: 'פנסיונר',
+};
+
+export const relationshipTypeLabels: Record<RelationshipType, string> = {
+  spouse: 'בן/בת זוג',
+  child: 'ילד/ה',
+  parent: 'הורה',
+  sibling: 'אח/אחות',
+  other: 'אחר',
+};
+
+export const idTypeLabels: Record<IdType, string> = {
+  id_card: 'תעודת זהות',
+  passport: 'דרכון',
+};
+
+export const genderLabels: Record<string, string> = {
+  male: 'זכר',
+  female: 'נקבה',
+};
+
+export const maritalStatusLabels: Record<string, string> = {
+  single: 'רווק/ה',
+  married: 'נשוי/אה',
+  divorced: 'גרוש/ה',
+  widowed: 'אלמן/ה',
+};
+
+export const healthFundLabels: Record<string, string> = {
+  clalit: 'כללית',
+  maccabi: 'מכבי',
+  meuhedet: 'מאוחדת',
+  leumit: 'לאומית',
 };
