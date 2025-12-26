@@ -1,0 +1,827 @@
+@import './styles/design-system.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Modern Gradient Theme - Inspired by Lovable Design */
+    --background: 0 0% 100%;
+    --foreground: 240 15% 14%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 15% 14%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 15% 14%;
+
+    /* Primary - Soft Blue */
+    --primary-50: 220 90% 97%;
+    --primary-100: 220 85% 94%;
+    --primary-200: 220 85% 86%;
+    --primary-300: 220 80% 74%;
+    --primary-400: 220 85% 64%;
+    --primary-500: 220 90% 56%;
+    --primary-600: 220 90% 48%;
+    --primary-700: 220 85% 42%;
+    --primary-800: 220 80% 36%;
+    --primary: 220 90% 56%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Soft Purple/Pink */
+    --secondary-50: 290 75% 97%;
+    --secondary-100: 290 70% 94%;
+    --secondary-200: 290 70% 88%;
+    --secondary-300: 290 72% 80%;
+    --secondary-400: 290 74% 74%;
+    --secondary-500: 290 75% 68%;
+    --secondary-600: 290 75% 62%;
+    --secondary-700: 290 70% 56%;
+    --secondary-800: 290 65% 50%;
+    --secondary: 290 75% 68%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Accent - Coral/Pink */
+    --accent-50: 350 90% 97%;
+    --accent-100: 350 85% 94%;
+    --accent-200: 350 85% 88%;
+    --accent-300: 350 88% 82%;
+    --accent-400: 350 90% 77%;
+    --accent-500: 350 90% 72%;
+    --accent-600: 350 85% 66%;
+    --accent-700: 350 80% 60%;
+    --accent-800: 350 75% 54%;
+    --accent: 350 90% 72%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Neutrals - Soft Gray Scale */
+    --neutral-50: 240 20% 99%;
+    --neutral-100: 240 15% 97%;
+    --neutral-200: 240 12% 94%;
+    --neutral-300: 240 10% 88%;
+    --neutral-600: 240 8% 50%;
+    --neutral-700: 240 10% 38%;
+    --neutral-800: 240 12% 26%;
+    --neutral-900: 240 15% 14%;
+
+    --muted: 240 15% 97%;
+    --muted-foreground: 240 8% 50%;
+
+    --destructive: 0 72% 62%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 12% 94%;
+    --input: 240 12% 94%;
+    --ring: 220 90% 56%;
+
+    --radius: 0.875rem;
+    
+    /* Beautiful Gradients - Lovable Inspired (blue → purple → pink → coral) */
+    --gradient-primary: linear-gradient(135deg, hsl(220 90% 70%) 0%, hsl(260 75% 68%) 50%, hsl(350 90% 72%) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(220 90% 70%) 0%, hsl(260 75% 68%) 35%, hsl(310 80% 70%) 65%, hsl(350 90% 72%) 85%, hsl(20 85% 70%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(260 75% 68%) 0%, hsl(310 80% 70%) 50%, hsl(350 90% 72%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(310 80% 70%) 0%, hsl(350 90% 72%) 50%, hsl(20 85% 70%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(220 90% 70%) 0%, hsl(260 75% 68%) 50%, hsl(350 90% 72%) 100%);
+    --gradient-neon: linear-gradient(135deg, hsl(220 95% 75%) 0%, hsl(260 85% 72%) 50%, hsl(350 95% 75%) 100%);
+    
+    /* Soft Elegant Shadows */
+    --shadow-soft: 0 2px 10px hsl(240 12% 20% / 0.06);
+    --shadow-medium: 0 4px 20px hsl(240 12% 15% / 0.08);
+    --shadow-large: 0 10px 40px hsl(240 12% 10% / 0.12);
+    --shadow-primary: 0 8px 30px hsl(220 90% 56% / 0.2);
+    --shadow-secondary: 0 8px 30px hsl(290 75% 68% / 0.2);
+    --shadow-accent: 0 8px 30px hsl(350 90% 72% / 0.2);
+    --shadow-glow: 0 0 40px hsl(220 90% 70% / 0.25);
+    --shadow-glow-secondary: 0 0 40px hsl(260 75% 68% / 0.25);
+    --shadow-glow-accent: 0 0 40px hsl(350 90% 72% / 0.25);
+    
+    /* Ultra Smooth Transitions */
+    --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 240 15% 14%;
+    --sidebar-primary: 220 90% 56%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 15% 97%;
+    --sidebar-accent-foreground: 240 15% 14%;
+    --sidebar-border: 240 12% 94%;
+    --sidebar-ring: 220 90% 56%;
+  }
+
+  .dark {
+    /* Dark mode - Modern Gradient Theme */
+    --background: 240 15% 11%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 12% 16%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 12% 16%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 220 85% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 290 70% 72%;
+    --secondary-foreground: 0 0% 100%;
+
+    --accent: 350 85% 75%;
+    --accent-foreground: 0 0% 100%;
+
+    --muted: 240 10% 22%;
+    --muted-foreground: 240 8% 68%;
+
+    --destructive: 0 70% 65%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 10% 22%;
+    --input: 240 10% 22%;
+    --ring: 220 85% 65%;
+    
+    --shadow-soft: 0 2px 10px hsl(0 0% 0% / 0.5);
+    --shadow-medium: 0 4px 20px hsl(0 0% 0% / 0.6);
+    --shadow-large: 0 10px 40px hsl(0 0% 0% / 0.7);
+    --shadow-primary: 0 8px 35px hsl(220 85% 65% / 0.3);
+    --shadow-secondary: 0 8px 35px hsl(290 70% 72% / 0.3);
+    --shadow-accent: 0 8px 35px hsl(350 85% 75% / 0.3);
+    --shadow-glow: 0 0 40px hsl(220 85% 65% / 0.35);
+    --shadow-glow-secondary: 0 0 40px hsl(260 70% 70% / 0.35);
+    --shadow-glow-accent: 0 0 40px hsl(350 85% 75% / 0.35);
+    
+    --sidebar-background: 240 12% 16%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 220 85% 65%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 10% 22%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 240 10% 22%;
+    --sidebar-ring: 220 85% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    direction: rtl;
+  }
+
+  [dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', 'Rubik', 'Heebo', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Assistant', sans-serif;
+  }
+}
+
+/* CRM Dashboard Component Classes */
+@layer components {
+  /* Button Variants */
+  .btn {
+    @apply inline-flex items-center justify-center
+           px-4 py-2 rounded-sm font-medium text-sm
+           transition-all duration-200 ease-smooth
+           focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary text-primary-foreground
+           hover:opacity-90 hover:shadow-button
+           focus:ring-primary;
+  }
+
+  .btn-secondary {
+    @apply btn bg-neutral-100 text-neutral-700
+           hover:bg-neutral-200
+           focus:ring-neutral-300;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-primary
+           hover:bg-primary-50;
+  }
+
+  .btn-pill {
+    @apply rounded-pill;
+  }
+
+  /* Card Component */
+  .crm-card {
+    @apply bg-card rounded-md shadow-card
+           p-4 md:p-6
+           transition-shadow duration-300 ease-smooth;
+  }
+
+  .crm-card:hover {
+    @apply shadow-card-hover;
+  }
+
+  .card-header {
+    @apply text-lg font-semibold text-neutral-800 mb-4;
+  }
+
+  /* Stat Card (KPI) */
+  .stat-card {
+    @apply crm-card text-center;
+  }
+
+  .stat-value {
+    @apply text-3xl font-bold text-primary;
+  }
+
+  .stat-label {
+    @apply text-sm text-muted-foreground mt-1;
+  }
+
+  .stat-sublabel {
+    @apply text-tiny text-neutral-600 mt-0.5;
+  }
+
+  /* Table Styles */
+  .table-container {
+    @apply bg-card rounded-md shadow-card overflow-hidden;
+  }
+
+  .table-header {
+    @apply bg-neutral-100 text-neutral-600 text-sm font-medium;
+  }
+
+  .table-header th {
+    @apply px-4 py-3 text-right;
+  }
+
+  .table-row {
+    @apply border-b border-neutral-200
+           hover:bg-neutral-50 transition-colors;
+  }
+
+  .table-row td {
+    @apply px-4 py-3 text-sm text-neutral-700;
+  }
+
+  /* Sidebar */
+  .crm-sidebar {
+    @apply bg-card border-l border-neutral-200
+           w-72 min-h-screen p-4;
+  }
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-3 py-2 rounded
+           text-neutral-600 hover:bg-neutral-100
+           hover:text-neutral-800 transition-colors;
+  }
+
+  .sidebar-item.active {
+    @apply bg-primary-50 text-primary font-medium;
+  }
+
+  /* Top Navigation */
+  .crm-navbar {
+    @apply bg-card border-b border-neutral-200
+           h-14 px-4 flex items-center justify-between
+           sticky top-0 z-50;
+  }
+
+  .nav-link {
+    @apply px-3 py-2 text-sm text-neutral-600
+           hover:text-primary transition-colors;
+  }
+
+  .nav-link.active {
+    @apply text-primary font-medium
+           border-b-2 border-primary;
+  }
+
+  /* Input Fields */
+  .crm-input {
+    @apply w-full px-3 py-2 text-sm
+           border border-neutral-300 rounded-sm
+           focus:border-primary focus:ring-1 focus:ring-primary
+           transition-colors duration-200
+           placeholder:text-neutral-600;
+  }
+
+  .input-label {
+    @apply block text-sm font-medium text-neutral-700 mb-1;
+  }
+
+  /* Badge/Tag */
+  .crm-badge {
+    @apply inline-flex items-center px-2 py-0.5
+           text-xs font-medium rounded-pill;
+  }
+
+  .badge-primary {
+    @apply bg-primary-100 text-primary-700;
+  }
+
+  .badge-success {
+    @apply bg-green-100 text-green-700;
+  }
+
+  .badge-warning {
+    @apply bg-amber-100 text-amber-700;
+  }
+
+  .badge-error {
+    @apply bg-red-100 text-red-700;
+  }
+
+  /* Link Styles */
+  .crm-link {
+    @apply text-primary hover:text-primary-600
+           hover:underline transition-colors;
+  }
+
+  /* Charts Container */
+  .chart-card {
+    @apply crm-card;
+  }
+
+  .chart-title {
+    @apply text-base font-semibold text-neutral-800 mb-4;
+  }
+
+  /* Accordion/Expandable */
+  .accordion-item {
+    @apply border-b border-neutral-200;
+  }
+
+  .accordion-trigger {
+    @apply w-full flex items-center justify-between
+           py-3 text-sm text-neutral-700
+           hover:text-neutral-900 transition-colors;
+  }
+
+  /* Avatar */
+  .crm-avatar {
+    @apply w-8 h-8 rounded-full bg-neutral-200
+           flex items-center justify-center
+           text-sm font-medium text-neutral-600;
+  }
+
+  .avatar-sm { @apply w-6 h-6 text-xs; }
+  .avatar-lg { @apply w-10 h-10 text-base; }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out;
+  }
+
+  .animate-slide-in-right {
+    animation: slideInRight 0.6s ease-out;
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out;
+  }
+
+  .animate-slide-from-left {
+    animation: slide-from-left 0.8s ease-out;
+  }
+
+  .animate-slide-from-right {
+    animation: slide-from-right 0.8s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.7s ease-out;
+  }
+
+  .animate-zoom-in {
+    animation: zoom-in 0.8s ease-out;
+  }
+
+  .animate-rotate-in {
+    animation: rotate-in 0.9s ease-out;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .hover-scale {
+    @apply transition-transform duration-300 hover:scale-105;
+  }
+
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .gradient-subtle {
+    background: var(--gradient-subtle);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-primary {
+    box-shadow: var(--shadow-primary);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .gradient-glass {
+    background: linear-gradient(135deg, 
+      hsla(220, 90%, 85%, 0.15), 
+      hsla(290, 75%, 85%, 0.15), 
+      hsla(350, 90%, 85%, 0.15));
+    backdrop-filter: blur(12px);
+    border: 1px solid hsla(220, 90%, 70%, 0.3);
+  }
+
+  .gradient-card {
+    background: linear-gradient(135deg, 
+      hsla(220, 90%, 96%, 0.8), 
+      hsla(240, 20%, 99%, 0.9));
+    border: 1px solid hsl(220 85% 86%);
+  }
+
+  .gradient-neon {
+    background: var(--gradient-neon);
+  }
+
+  .glass-effect {
+    background: linear-gradient(135deg, 
+      hsla(220, 85%, 75%, 0.1), 
+      hsla(290, 75%, 75%, 0.1));
+    backdrop-filter: blur(12px);
+    border: 1px solid hsla(220, 90%, 70%, 0.3);
+  }
+
+  .glass-card {
+    background: linear-gradient(135deg, 
+      hsla(220, 90%, 94%, 0.6), 
+      hsla(290, 75%, 94%, 0.5));
+    backdrop-filter: blur(20px);
+    border: 1px solid hsla(220, 90%, 86%, 0.4);
+    box-shadow: 0 8px 32px 0 hsla(220, 90%, 56%, 0.15);
+  }
+
+  .chip-pattern {
+    background-image: 
+      linear-gradient(90deg, hsl(var(--primary) / 0.05) 1px, transparent 1px),
+      linear-gradient(0deg, hsl(var(--primary) / 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .floating-particle {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .circuit-line {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: circuit-draw 3s ease-in-out infinite;
+  }
+
+  .animate-marquee {
+    animation: marquee 40s linear infinite;
+  }
+
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+
+  /* Advanced Hover Effects */
+  .hover-tilt {
+    transform-style: preserve-3d;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .hover-tilt:hover {
+    transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateY(-8px);
+  }
+
+  .hover-glass {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hover-glass::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+      transparent, 
+      hsla(220, 90%, 85%, 0.3), 
+      transparent);
+    transition: left 0.5s ease;
+  }
+
+  .hover-glass:hover::before {
+    left: 100%;
+  }
+
+  .hover-glow {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .hover-glow::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, 
+      hsl(220 90% 70% / 0.5), 
+      hsl(290 75% 68% / 0.5), 
+      hsl(350 90% 72% / 0.5));
+    opacity: 0;
+    z-index: -1;
+    filter: blur(20px);
+    transition: opacity 0.3s ease;
+  }
+
+  .hover-glow:hover::after {
+    opacity: 1;
+  }
+
+  .dynamic-shadow {
+    box-shadow: 0 4px 20px hsl(240 12% 15% / 0.1);
+    transition: box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .dynamic-shadow:hover {
+    box-shadow: 
+      0 20px 60px hsl(220 90% 56% / 0.25),
+      0 10px 30px hsl(290 75% 68% / 0.2),
+      0 0 40px hsl(220 90% 70% / 0.15);
+  }
+
+  /* Ripple Effect for Buttons */
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: hsla(0, 0%, 100%, 0.6);
+    transform: scale(0);
+    animation: ripple-animation 0.6s ease-out;
+    pointer-events: none;
+  }
+
+  /* Icon Animations on Hover */
+  .icon-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .icon-hover:hover {
+    transform: scale(1.15) rotate(5deg);
+  }
+
+  .icon-bounce:hover {
+    animation: icon-bounce 0.5s ease;
+  }
+
+  .icon-spin:hover {
+    animation: icon-spin 0.6s ease-in-out;
+  }
+
+  .icon-pulse:hover {
+    animation: icon-pulse 0.8s ease-in-out;
+  }
+
+  /* Enhanced Skeleton Animations */
+  .skeleton-wave {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted-foreground) / 0.1) 20%,
+      hsl(var(--muted)) 40%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-wave 1.5s ease-in-out infinite;
+  }
+
+  .skeleton-shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsla(220, 90%, 85%, 0.4),
+      transparent
+    );
+    animation: shimmer 2s infinite;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-20px) translateX(10px);
+    opacity: 0.7;
+  }
+}
+
+@keyframes circuit-draw {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -1000;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes ripple-animation {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes icon-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes icon-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes icon-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+@keyframes skeleton-wave {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Enhanced Scroll Reveal Animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes rotate-in {
+  from {
+    opacity: 0;
+    transform: rotate(-10deg) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}

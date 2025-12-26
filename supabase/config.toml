@@ -1,0 +1,34 @@
+project_id = "mcupixzlseoyxjgzneps"
+
+[functions.generate-notifications]
+verify_jwt = false
+
+[functions.analytics]
+verify_jwt = true
+
+[functions.recommendations]
+verify_jwt = true
+
+[functions.performance-monitor]
+verify_jwt = false
+
+[functions.social-benchmark]
+verify_jwt = true
+
+[functions.ai-advisor]
+verify_jwt = true
+
+[functions.scheduled-reminders]
+verify_jwt = false
+
+[functions.stock-data]
+verify_jwt = false
+
+[functions.sync-bank-transactions]
+verify_jwt = true
+
+[functions.match-commissions]
+verify_jwt = true
+
+[functions.check-missing-commissions]
+verify_jwt = false
