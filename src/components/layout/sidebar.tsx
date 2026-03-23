@@ -14,6 +14,10 @@ import {
   Bell,
   ScanSearch,
   Lightbulb,
+  Presentation,
+  Activity,
+  Headphones,
+  PenTool,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -64,6 +68,30 @@ const toolsNavigation = [
     href: "/wise",
     icon: Lightbulb,
     color: "#F59E0B",
+  },
+  {
+    name: "STAGE",
+    href: "/stage",
+    icon: Presentation,
+    color: "#8B5CF6",
+  },
+  {
+    name: "PULSE",
+    href: "/pulse",
+    icon: Activity,
+    color: "#EF4444",
+  },
+  {
+    name: "DESK",
+    href: "/desk",
+    icon: Headphones,
+    color: "#06B6D4",
+  },
+  {
+    name: "SIGN",
+    href: "/sign",
+    icon: PenTool,
+    color: "#059669",
   },
 ];
 
