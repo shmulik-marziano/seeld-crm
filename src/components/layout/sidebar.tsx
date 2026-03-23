@@ -12,6 +12,8 @@ import {
   LogOut,
   ClipboardList,
   Bell,
+  ScanSearch,
+  Lightbulb,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -47,6 +49,21 @@ const navigation = [
     name: "התראות",
     href: "/notifications",
     icon: Bell,
+  },
+];
+
+const toolsNavigation = [
+  {
+    name: "X-RAY",
+    href: "/x-ray",
+    icon: ScanSearch,
+    color: "#DC2626",
+  },
+  {
+    name: "WISE",
+    href: "/wise",
+    icon: Lightbulb,
+    color: "#F59E0B",
   },
 ];
 
@@ -90,6 +107,32 @@ export function Sidebar() {
                 )}
               >
                 <item.icon className="h-5 w-5" />
+                {item.name}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <Separator className="my-3" />
+
+        {/* כלי SEELD */}
+        <p className="px-3 text-xs font-semibold text-muted-foreground mb-2">כלים</p>
+        <nav className="space-y-1">
+          {toolsNavigation.map((item) => {
+            const isActive = pathname.startsWith(item.href);
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-bold transition-colors",
+                  isActive
+                    ? "text-white"
+                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                )}
+                style={isActive ? { backgroundColor: item.color } : undefined}
+              >
+                <item.icon className="h-5 w-5" style={!isActive ? { color: item.color } : undefined} />
                 {item.name}
               </Link>
             );
