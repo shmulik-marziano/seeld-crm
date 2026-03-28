@@ -106,7 +106,7 @@ export function RecommendationReport() {
             <div className="rounded-xl p-4 mb-3" style={{ background: '#f0fdf4', border: '1px solid #bbf7d0' }}>
               <div className="flex items-center gap-2 mb-2">
                 <CheckCircle2 className="w-4 h-4" style={{ color: colors.green }} />
-                <span className="font-semibold text-sm" style={{ color: '#166534' }}>המלצה: ניוד לכלל</span>
+                <span className="font-bold text-base" style={{ color: '#166534' }}>המלצה: ניוד לכלל</span>
               </div>
               <p className="text-sm" style={{ color: '#166534' }}>
                 דמ&quot;נ <strong>0.1% צבירה + 1.1% הפקדה</strong>
@@ -142,7 +142,7 @@ export function RecommendationReport() {
             <div className="rounded-xl p-4 mb-3" style={{ background: '#f0fdf4', border: '1px solid #bbf7d0' }}>
               <div className="flex items-center gap-2 mb-2">
                 <CheckCircle2 className="w-4 h-4" style={{ color: colors.green }} />
-                <span className="font-semibold text-sm" style={{ color: '#166534' }}>המלצה: איחוד וניוד להראל פיננסים</span>
+                <span className="font-bold text-base" style={{ color: '#166534' }}>המלצה: איחוד וניוד להראל פיננסים</span>
               </div>
               <p className="text-sm" style={{ color: '#166534' }}>
                 דמ&quot;נ <strong>0.65%</strong> | מסלול מניות
@@ -172,7 +172,7 @@ export function RecommendationReport() {
             <div className="rounded-xl p-4 mb-3" style={{ background: '#f0fdf4', border: '1px solid #bbf7d0' }}>
               <div className="flex items-center gap-2 mb-2">
                 <CheckCircle2 className="w-4 h-4" style={{ color: colors.green }} />
-                <span className="font-semibold text-sm" style={{ color: '#166534' }}>המלצה: ניוד להראל פיננסים</span>
+                <span className="font-bold text-base" style={{ color: '#166534' }}>המלצה: ניוד להראל פיננסים</span>
               </div>
               <p className="text-sm" style={{ color: '#166534' }}>
                 דמ&quot;נ <strong>0.65%</strong> | מסלול מניות
@@ -405,12 +405,20 @@ function RecommendationCard({
 }
 
 function InfoRow({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
+  const isStatus = label === 'מצב נוכחי';
   return (
-    <div className="flex items-center justify-between py-2 px-1 text-sm" style={{ borderBottom: `1px solid ${colors.border}20` }}>
-      <span style={{ color: colors.textMuted }}>{label}</span>
+    <div
+      className="flex items-center justify-between py-2.5 px-3 text-sm rounded-lg"
+      style={{
+        borderBottom: isStatus ? 'none' : `1px solid ${colors.border}20`,
+        background: isStatus ? colors.bgSoft : 'transparent',
+        marginBottom: isStatus ? '4px' : '0',
+      }}
+    >
+      <span className={isStatus ? 'font-bold' : ''} style={{ color: isStatus ? colors.textDark : colors.textMuted }}>{label}</span>
       <span
-        className={highlight ? 'font-bold text-base' : 'font-medium'}
-        style={{ color: highlight ? colors.navy : colors.textDark }}
+        className={highlight ? 'font-bold text-base' : isStatus ? 'font-bold' : 'font-medium'}
+        style={{ color: highlight ? colors.navy : isStatus ? colors.navy : colors.textDark }}
       >
         {value}
       </span>
