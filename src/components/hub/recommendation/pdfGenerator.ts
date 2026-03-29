@@ -3,8 +3,25 @@ import {
   getProductGroup, getProductLabel,
 } from '@/types/recommendation';
 
+/* ─── Brand colors from seeld.co.il design system ─── */
+const BRAND = {
+  primary: '#2563eb',       // brand-blue (HSL 220 90% 56%)
+  primaryDark: '#1e40af',   // darker blue
+  primaryLight: '#dbeafe',  // blue-50
+  green: '#10b981',         // brand-green
+  greenDark: '#065f46',
+  greenLight: '#ecfdf5',
+  greenBorder: '#a7f3d0',
+  foreground: '#0f172a',    // text dark
+  muted: '#64748b',         // text muted
+  border: '#e2e8f0',
+  bg: '#ffffff',
+  bgSoft: '#f8fafc',
+  destructive: '#ef4444',
+};
+
 function fmt(val: string, suffix?: string): string {
-  if (!val.trim()) return '—';
+  if (!val.trim()) return '';
   if (suffix === '₪') {
     const n = Number(val.replace(/,/g, ''));
     if (!isNaN(n)) return n.toLocaleString('he-IL') + ' ₪';
@@ -15,7 +32,7 @@ function fmt(val: string, suffix?: string): string {
 
 function row(label: string, value: string, suffix?: string): string {
   const display = fmt(value, suffix);
-  if (display === '—') return '';
+  if (!display) return '';
   return `<tr><td class="label">${label}</td><td class="value">${display}</td></tr>`;
 }
 
@@ -71,92 +88,150 @@ export function generateRecommendationPDF(form: RecommendationFormData) {
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>המלצה אישית — ${form.client.fullName} | SEELD</title>
+<title>המלצה — ${form.client.fullName} | SEELD</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-@page { size: A4; margin: 14mm 16mm; }
+@page { size: A4; margin: 16mm 18mm; }
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Heebo',sans-serif; color:#1a2e35; line-height:1.7; font-size:14px; direction:rtl;
-  -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+body {
+  font-family: 'Heebo', sans-serif;
+  color: ${BRAND.foreground};
+  line-height: 1.7;
+  font-size: 14px;
+  direction: rtl;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
 
-.page { max-width:700px; margin:0 auto; padding:20px 0; }
+.page { max-width: 660px; margin: 0 auto; padding: 16px 0; }
 
-/* Header */
-.doc-header { display:flex; align-items:center; justify-content:space-between; padding-bottom:20px;
-  border-bottom:2px solid #0d4f4f; margin-bottom:28px; }
-.brand { display:flex; align-items:center; gap:10px; }
-.brand svg { width:32px; height:32px; }
-.brand-name { font-size:20px; font-weight:800; color:#0d4f4f; }
-.brand-sub { font-size:10px; color:#8896a4; }
-.doc-meta { text-align:left; font-size:11px; color:#8896a4; line-height:1.6; }
+/* ═══ Header ═══ */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 18px;
+  border-bottom: 2px solid ${BRAND.primary};
+  margin-bottom: 28px;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-logo {
+  width: 34px; height: 34px;
+  background: ${BRAND.primary};
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 800; font-size: 16px;
+}
+.brand-name { font-size: 20px; font-weight: 800; color: ${BRAND.primary}; letter-spacing: -0.3px; }
+.brand-sub { font-size: 10px; color: ${BRAND.muted}; font-weight: 400; }
+.meta { text-align: left; font-size: 11px; color: ${BRAND.muted}; line-height: 1.6; }
 
-/* Title */
-.doc-title { text-align:center; margin-bottom:28px; }
-.doc-title h1 { font-size:22px; font-weight:800; color:#0d4f4f; margin-bottom:4px; }
-.doc-title .product-badge { display:inline-block; background:#0d4f4f; color:#fff;
-  padding:4px 16px; border-radius:16px; font-size:12px; font-weight:600; }
+/* ═══ Title ═══ */
+.title { text-align: center; margin-bottom: 28px; }
+.title h1 { font-size: 22px; font-weight: 800; color: ${BRAND.foreground}; margin-bottom: 8px; }
+.title .badge {
+  display: inline-block;
+  background: ${BRAND.primary};
+  color: white;
+  padding: 5px 18px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
 
-/* Client */
-.client-bar { display:flex; gap:32px; justify-content:center; background:#f7f9fb;
-  border-radius:10px; padding:14px 24px; margin-bottom:28px; }
-.client-item { font-size:13px; color:#4a5568; }
-.client-item strong { color:#0d4f4f; font-weight:700; }
+/* ═══ Client ═══ */
+.client {
+  display: flex; gap: 32px; justify-content: center;
+  background: ${BRAND.bgSoft};
+  border: 1px solid ${BRAND.border};
+  border-radius: 10px;
+  padding: 14px 28px;
+  margin-bottom: 28px;
+}
+.client-item { font-size: 13px; color: ${BRAND.muted}; }
+.client-item strong { color: ${BRAND.foreground}; font-weight: 600; }
 
-/* Sections */
-.section { margin-bottom:24px; }
-.section-title { display:flex; align-items:center; gap:8px; margin-bottom:12px; }
-.section-dot { width:10px; height:10px; border-radius:50%; }
-.section-label { font-size:15px; font-weight:700; color:#0d4f4f; }
+/* ═══ Section ═══ */
+.section { margin-bottom: 24px; }
+.section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.section-dot { width: 10px; height: 10px; border-radius: 50%; }
+.section-label { font-size: 15px; font-weight: 700; color: ${BRAND.foreground}; }
 
-/* Table */
-table { width:100%; border-collapse:collapse; }
-td { padding:8px 14px; font-size:13px; border-bottom:1px solid #e8edf2; }
-td.label { color:#8896a4; width:40%; font-weight:400; }
-td.value { color:#1a2e35; font-weight:600; }
+/* ═══ Table ═══ */
+table { width: 100%; border-collapse: collapse; }
+td { padding: 9px 14px; font-size: 13px; border-bottom: 1px solid ${BRAND.border}; }
+td.label { color: ${BRAND.muted}; width: 42%; font-weight: 400; }
+td.value { color: ${BRAND.foreground}; font-weight: 600; }
 
-/* Reasoning */
-.reasoning { background:#f7f9fb; border-radius:10px; padding:16px 20px;
-  border-right:3px solid #4A90A4; font-size:13px; font-weight:300;
-  line-height:1.9; color:#1a2e35; }
-.reasoning strong { font-weight:600; color:#0d4f4f; }
+/* ═══ Reasoning ═══ */
+.reasoning {
+  background: ${BRAND.bgSoft};
+  border: 1px solid ${BRAND.border};
+  border-radius: 10px;
+  padding: 18px 22px;
+  border-right: 3px solid ${BRAND.primary};
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.9;
+  color: ${BRAND.foreground};
+}
+.reasoning strong { font-weight: 600; color: ${BRAND.primary}; }
 
-/* Footer */
-.doc-footer { margin-top:36px; padding-top:16px; border-top:1.5px solid #e8edf2;
-  display:flex; align-items:center; justify-content:space-between; }
-.footer-brand { display:flex; align-items:center; gap:8px; }
-.footer-brand svg { width:20px; height:20px; }
-.footer-brand span { font-size:13px; font-weight:700; color:#0d4f4f; }
-.footer-agent { text-align:left; font-size:11px; color:#8896a4; line-height:1.5; }
-.footer-agent strong { color:#0d4f4f; }
-.disclaimer { margin-top:14px; text-align:center; font-size:9.5px; color:#aab4be; line-height:1.7; }
+/* ═══ Footer ═══ */
+.footer {
+  margin-top: 36px;
+  padding-top: 16px;
+  border-top: 1.5px solid ${BRAND.border};
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-brand { display: flex; align-items: center; gap: 8px; }
+.footer-logo {
+  width: 22px; height: 22px;
+  background: ${BRAND.primary};
+  border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 700; font-size: 10px;
+}
+.footer-name { font-size: 13px; font-weight: 700; color: ${BRAND.primary}; }
+.footer-agent { text-align: left; font-size: 11px; color: ${BRAND.muted}; line-height: 1.5; }
+.footer-agent strong { color: ${BRAND.foreground}; }
+.disclaimer {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 9.5px;
+  color: #94a3b8;
+  line-height: 1.7;
+}
 </style>
 </head>
 <body>
 <div class="page">
 
   <!-- Header -->
-  <div class="doc-header">
+  <div class="header">
     <div class="brand">
-      <svg viewBox="0 0 40 40" fill="none"><path d="M20 4C20 4 8 18 8 26a12 12 0 0 0 24 0C32 18 20 4 20 4z" fill="#0d4f4f"/><circle cx="16" cy="24" r="2" fill="#5ec6c6" opacity="0.6"/><circle cx="22" cy="20" r="1.5" fill="#7bc67e" opacity="0.5"/></svg>
+      <div class="brand-logo">S</div>
       <div>
         <div class="brand-name">SEELD</div>
         <div class="brand-sub">ביטוח, חיסכון ופנסיה</div>
       </div>
     </div>
-    <div class="doc-meta">
+    <div class="meta">
       <div>תאריך: ${date}</div>
       <div>מוצר: ${productLabel}</div>
     </div>
   </div>
 
   <!-- Title -->
-  <div class="doc-title">
+  <div class="title">
     <h1>המלצה אישית ללקוח</h1>
-    <span class="product-badge">${productLabel}</span>
+    <span class="badge">${productLabel}</span>
   </div>
 
   <!-- Client -->
-  <div class="client-bar">
+  <div class="client">
     <div class="client-item"><strong>שם:</strong> ${form.client.fullName}</div>
     <div class="client-item"><strong>ת.ז:</strong> ${form.client.idNumber}</div>
     <div class="client-item"><strong>טלפון:</strong> ${form.client.phone}</div>
@@ -164,8 +239,8 @@ td.value { color:#1a2e35; font-weight:600; }
 
   <!-- Current -->
   <div class="section">
-    <div class="section-title">
-      <div class="section-dot" style="background:#4A90A4"></div>
+    <div class="section-head">
+      <div class="section-dot" style="background:${BRAND.primary}"></div>
       <div class="section-label">מצב קיים</div>
     </div>
     <table>${currentRows}</table>
@@ -173,8 +248,8 @@ td.value { color:#1a2e35; font-weight:600; }
 
   <!-- Recommended -->
   <div class="section">
-    <div class="section-title">
-      <div class="section-dot" style="background:#10b981"></div>
+    <div class="section-head">
+      <div class="section-dot" style="background:${BRAND.green}"></div>
       <div class="section-label">ההמלצה שלנו</div>
     </div>
     <table>${recommendedRows}</table>
@@ -182,8 +257,8 @@ td.value { color:#1a2e35; font-weight:600; }
 
   <!-- Reasoning -->
   <div class="section">
-    <div class="section-title">
-      <div class="section-dot" style="background:#0d4f4f"></div>
+    <div class="section-head">
+      <div class="section-dot" style="background:${BRAND.primaryDark}"></div>
       <div class="section-label">נימוק ההמלצה</div>
     </div>
     <div class="reasoning">
@@ -192,10 +267,10 @@ td.value { color:#1a2e35; font-weight:600; }
   </div>
 
   <!-- Footer -->
-  <div class="doc-footer">
+  <div class="footer">
     <div class="footer-brand">
-      <svg viewBox="0 0 40 40" fill="none"><path d="M20 4C20 4 8 18 8 26a12 12 0 0 0 24 0C32 18 20 4 20 4z" fill="#0d4f4f"/></svg>
-      <span>SEELD</span>
+      <div class="footer-logo">S</div>
+      <span class="footer-name">SEELD</span>
     </div>
     <div class="footer-agent">
       <strong>סו"ב שמוליק מרציאנו</strong> | מ.ר 138666<br>
