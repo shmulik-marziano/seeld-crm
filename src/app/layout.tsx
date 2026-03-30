@@ -3,8 +3,8 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
-  title: "SEELD CRM - מערכת ניהול לקוחות",
-  description: "מערכת CRM לסוכנות ביטוח SEELD",
+  title: "SEELD — ביטוח, פנסיה וחיסכון עם מישהו שמכיר אותך",
+  description: "סוכנות ביטוח דיגיטלית ועצמאית — שקיפות מלאה, ייעוץ אישי וטכנולוגיה מתקדמת",
 };
 
 export default function RootLayout({
